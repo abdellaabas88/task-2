@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:task_2/todo_list.dart';
 
 class UserInfo extends StatefulWidget {
@@ -8,7 +7,7 @@ class UserInfo extends StatefulWidget {
     super.key,
   });
 
-  final void Function(List<String>) addTask;
+  final void Function(List<String>)? addTask;
 
   @override
   State<UserInfo> createState() => _UserInfoState();
@@ -158,15 +157,15 @@ class _UserInfoState extends State<UserInfo> {
                 //     MaterialPageRoute(
                 //       builder:
                 //           (context) => TodoList(
-                //             name: '',
-                //             date: '',
-                //             description: '',
+                //             name: nameController.toString(),
+                //             date: dateController.toString(),
+                //             description: descriptionController.toString(),
                 //           ),
                 //     ),
                 //   );
                 // },
                 onPressed: () {
-                  widget.addTask([
+                  widget.addTask!([
                     nameController.text,
                     dateController.text,
                     descriptionController.text,
@@ -174,7 +173,6 @@ class _UserInfoState extends State<UserInfo> {
 
                   Navigator.pop(context);
                 },
-
                 child: Text(
                   'Add task',
                   style: TextStyle(color: Colors.white),
