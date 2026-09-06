@@ -10,13 +10,29 @@ class TaskDetail extends StatefulWidget {
     required this.name,
     required this.date,
     required this.description,
+    this.oldTask,
   });
+
+  final List<String>? oldTask;
 
   @override
   State<TaskDetail> createState() => _TaskDetailState();
 }
 
 class _TaskDetailState extends State<TaskDetail> {
+  final nameController = TextEditingController();
+  final dateController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    nameController.text = widget.name;
+    dateController.text = widget.date;
+    descriptionController.text = widget.description;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +63,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: TextField(
-                      readOnly: true,
+                      controller: nameController,
                       decoration: InputDecoration(
                         filled: true,
 
@@ -68,7 +84,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     child: SizedBox(
                       height: 100,
                       child: TextField(
-                        readOnly: true,
+                        controller: descriptionController,
                         maxLines: null,
                         expands: true,
                         decoration: InputDecoration(
@@ -91,7 +107,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: TextField(
-                      readOnly: true,
+                      controller: dateController,
                       decoration: InputDecoration(
                         filled: true,
 
@@ -110,6 +126,20 @@ class _TaskDetailState extends State<TaskDetail> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 3,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                List<String> task = [
+                  nameController.text,
+                  dateController.text,
+                  descriptionController.text,
+                ];
+                Navigator.pop(context, task);
+              },
+              child: Text('Save'),
             ),
           ],
         ),

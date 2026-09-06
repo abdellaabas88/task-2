@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_2/todo_list.dart';
 
-class UserInfo extends StatefulWidget {
-  const UserInfo(
+class CreateTask extends StatefulWidget {
+  const CreateTask(
     this.addTask, {
     super.key,
   });
@@ -10,10 +9,10 @@ class UserInfo extends StatefulWidget {
   final void Function(List<String>)? addTask;
 
   @override
-  State<UserInfo> createState() => _UserInfoState();
+  State<CreateTask> createState() => _CreateTask();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _CreateTask extends State<CreateTask> {
   final nameController = TextEditingController();
   final dateController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -82,27 +81,29 @@ class _UserInfoState extends State<UserInfo> {
             ),
             SizedBox(
               width: 358,
-              child: TextField(
-                controller: dateController,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(
-                    Icons.calendar_month,
-                    color: Colors.redAccent,
-                  ),
-                  hintText: "April 29,2023 12:30 AM",
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(2),
-                    borderSide: BorderSide(color: Colors.redAccent),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(2),
-                    borderSide: BorderSide(color: Colors.redAccent),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 233, 224, 224),
+              child: Expanded(
+                child: TextField(
+                  controller: dateController,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(
+                      Icons.calendar_month,
+                      color: Colors.redAccent,
                     ),
-                    borderRadius: BorderRadius.circular(2),
+                    hintText: "April 29,2023 12:30 AM",
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.redAccent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.redAccent),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: const Color.fromARGB(255, 233, 224, 224),
+                      ),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
                 ),
               ),
@@ -119,27 +120,29 @@ class _UserInfoState extends State<UserInfo> {
             SizedBox(
               width: 358,
               height: 132,
-              child: TextField(
-                controller: descriptionController,
-                textAlignVertical: TextAlignVertical.top,
-                maxLines: null,
-                expands: true,
-                decoration: InputDecoration(
-                  hintText:
-                      "First i have to animate the logo the late prototyping my design it's very important",
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(2),
-                    borderSide: BorderSide(color: Colors.redAccent),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(2),
-                    borderSide: BorderSide(color: Colors.redAccent),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 233, 224, 224),
+              child: Expanded(
+                child: TextField(
+                  controller: descriptionController,
+                  textAlignVertical: TextAlignVertical.top,
+                  maxLines: null,
+                  expands: true,
+                  decoration: InputDecoration(
+                    hintText:
+                        "First i have to animate the logo the late prototyping my design it's very important",
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.redAccent),
                     ),
-                    borderRadius: BorderRadius.circular(2),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.redAccent),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: const Color.fromARGB(255, 233, 224, 224),
+                      ),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_2/create_task.dart';
 import 'package:task_2/task_detail.dart';
-import 'package:task_2/userInfo.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({
@@ -77,8 +77,8 @@ class _TodoListState extends State<TodoList> {
                     right: 8,
                   ),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final editedTask = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder:
@@ -89,6 +89,11 @@ class _TodoListState extends State<TodoList> {
                               ),
                         ),
                       );
+                      if (editedTask != null) {
+                        setState(() {
+                          toDoList[index] = editedTask;
+                        });
+                      }
                     },
                     child: Container(
                       width: double.infinity,
@@ -206,7 +211,7 @@ class _TodoListState extends State<TodoList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserInfo(addTask),
+                        builder: (context) => CreateTask(addTask),
                       ),
                     );
                   },

@@ -12,51 +12,56 @@ class _FirstpageState extends State<Firstpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.redAccent,
-          border: Border.all(color: Colors.black, width: 2),
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 150),
-            Image.asset(
-              'assets/personImage.png',
-              width: 270,
-              height: 360,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 150),
-            SizedBox(
-              width: 256,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(1),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              TodoList(name: '', date: '', description: ''),
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          height: 850,
+          decoration: BoxDecoration(
+            color: Colors.redAccent,
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: 150),
+              Image.asset(
+                'assets/personImage.png',
+                width: 270,
+                height: 360,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 150),
+              SizedBox(
+                width: 256,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(1),
                     ),
-                  );
-                },
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => TodoList(
+                              name: '',
+                              date: '',
+                              description: '',
+                            ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Get Started',
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
