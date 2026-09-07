@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_2/create_task.dart';
 import 'package:task_2/task_detail.dart';
 
@@ -35,11 +36,13 @@ class _TodoListState extends State<TodoList> {
       toDoList.add(task);
     });
   }
+
   // @override
   // void initState() {
   //   super.initState();
-
-  //   addTask();
+  //   setState(() {
+  //     addTask;
+  //   });
   // }
 
   @override
@@ -78,17 +81,11 @@ class _TodoListState extends State<TodoList> {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      final editedTask = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => TaskDetail(
-                                name: toDoList[index][0],
-                                date: toDoList[index][1],
-                                description: toDoList[index][2],
-                              ),
-                        ),
+                      final editedTask = await context.push<List<String>>(
+                        '/task-detail',
+                        extra: toDoList[index],
                       );
+
                       if (editedTask != null) {
                         setState(() {
                           toDoList[index] = editedTask;
@@ -117,7 +114,9 @@ class _TodoListState extends State<TodoList> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Text(
-                              toDoList[index][0][0],
+                              toDoList[index][0].isNotEmpty
+                                  ? toDoList[index][0][0].toUpperCase()
+                                  : 'it is empty',
                               style: TextStyle(fontSize: 22),
                             ),
                           ),
@@ -137,7 +136,7 @@ class _TodoListState extends State<TodoList> {
                                     toDoList[index][0],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 110),
+                                    padding: const EdgeInsets.only(left: 165),
                                     child: Text(
                                       toDoList[index][1],
                                       style: TextStyle(fontSize: 12),
@@ -207,15 +206,17 @@ class _TodoListState extends State<TodoList> {
                 ),
 
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateTask(addTask),
-                      ),
+                  onPressed: () async {
+                    final newTask = await context.push<List<String>>(
+                      '/create-task',
                     );
-                  },
 
+                    if (newTask != null) {
+                      setState(() {
+                        toDoList.add(newTask);
+                      });
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
 

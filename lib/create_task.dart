@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateTask extends StatefulWidget {
   const CreateTask(
     this.addTask, {
     super.key,
   });
+
+  //is a function that receives a List<String> task.
 
   final void Function(List<String>)? addTask;
 
@@ -168,13 +171,13 @@ class _CreateTask extends State<CreateTask> {
                 //   );
                 // },
                 onPressed: () {
-                  widget.addTask!([
+                  context.pop([
                     nameController.text,
                     dateController.text,
                     descriptionController.text,
                   ]);
 
-                  Navigator.pop(context);
+               
                 },
                 child: Text(
                   'Add task',

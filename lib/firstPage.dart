@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_2/todo_list.dart';
 
 class Firstpage extends StatefulWidget {
@@ -40,17 +41,7 @@ class _FirstpageState extends State<Firstpage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => TodoList(
-                              name: '',
-                              date: '',
-                              description: '',
-                            ),
-                      ),
-                    );
+                    context.push('/todo-list');
                   },
                   child: Text(
                     'Get Started',

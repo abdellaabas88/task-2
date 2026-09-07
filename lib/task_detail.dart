@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TaskDetail extends StatefulWidget {
   final String name;
@@ -10,17 +11,17 @@ class TaskDetail extends StatefulWidget {
     required this.name,
     required this.date,
     required this.description,
-    this.oldTask,
+    // this.oldTask,
   });
 
-  final List<String>? oldTask;
+  //  final List<String>? oldTask;
 
   @override
   State<TaskDetail> createState() => _TaskDetailState();
 }
 
 class _TaskDetailState extends State<TaskDetail> {
-  final nameController = TextEditingController();
+  final _nameController = TextEditingController();
   final dateController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -28,7 +29,7 @@ class _TaskDetailState extends State<TaskDetail> {
   void initState() {
     super.initState();
 
-    nameController.text = widget.name;
+    _nameController.text = widget.name;
     dateController.text = widget.date;
     descriptionController.text = widget.description;
   }
@@ -63,7 +64,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: TextField(
-                      controller: nameController,
+                      controller: _nameController,
                       decoration: InputDecoration(
                         filled: true,
 
@@ -133,11 +134,11 @@ class _TaskDetailState extends State<TaskDetail> {
             ElevatedButton(
               onPressed: () {
                 List<String> task = [
-                  nameController.text,
+                  _nameController.text,
                   dateController.text,
                   descriptionController.text,
                 ];
-                Navigator.pop(context, task);
+                context.pop(task);
               },
               child: Text('Save'),
             ),
