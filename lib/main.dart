@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_2/create_task.dart';
+import 'package:task_2/cubit/todo_cubit.dart';
 
 import 'package:task_2/firstpage.dart';
+import 'package:task_2/models/task.dart';
 import 'package:task_2/todo_list.dart';
 import 'package:task_2/task_detail.dart';
 
@@ -17,12 +20,7 @@ final GoRouter router = GoRouter(
 
     GoRoute(
       path: '/todo-list',
-      builder:
-          (context, state) => TodoList(
-            name: '',
-            date: '',
-            description: '',
-          ),
+      builder: (context, state) => TodoList(),
     ),
 
     GoRoute(
@@ -33,11 +31,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/task-detail',
       builder: (context, state) {
-        final task = state.extra as List<String>;
+        final task = state.extra as Task;
         return TaskDetail(
-          name: task[0],
-          date: task[1],
-          description: task[2],
+          task: task,
         );
       },
     ),
@@ -46,9 +42,12 @@ final GoRouter router = GoRouter(
 
 void main() {
   runApp(
-    MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
+    BlocProvider(
+      create: (_) => TodoCubit(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+      ),
     ),
   );
 }

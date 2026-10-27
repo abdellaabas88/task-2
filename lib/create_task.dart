@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_2/models/task.dart';
 
 class CreateTask extends StatefulWidget {
   const CreateTask(
@@ -171,13 +172,12 @@ class _CreateTask extends State<CreateTask> {
                 //   );
                 // },
                 onPressed: () {
-                  context.pop([
-                    nameController.text,
-                    dateController.text,
-                    descriptionController.text,
-                  ]);
-
-               
+                  final updateTask = Task(
+                    name: nameController.text.trim(),
+                    date: dateController.text.trim(),
+                    description: descriptionController.text.trim(),
+                  );
+                  context.pop(updateTask);
                 },
                 child: Text(
                   'Add task',

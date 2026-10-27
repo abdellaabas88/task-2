@@ -1,50 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_2/create_task.dart';
-import 'package:task_2/task_detail.dart';
+
+import 'package:task_2/cubit/todo_cubit.dart';
+import 'package:task_2/cubit/todo_state.dart';
+import 'package:task_2/models/task.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({
     super.key,
-    required this.name,
-    required this.date,
-    required this.description,
   });
-  final String name;
-  final String date;
-  final String description;
 
   @override
   State<TodoList> createState() => _TodoListState();
 }
 
 class _TodoListState extends State<TodoList> {
-  // List toDoList = [
-  //   ["UI?app", "ll"],
-  //   ["Abdes com", "hhhh"],
-  //   ["abdkn", " jsdkcj "],
-  //   ["abbbb", "skdnclkn"],
-  // ];
-
-  List<List<String>> toDoList = [
-    ["UI/UX App", "April 29", "Design"],
-    ["Abdes com", "April 29", "Design"],
-  ];
-
-  void addTask(List<String> task) {
-    setState(() {
-      toDoList.add(task);
-    });
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   setState(() {
-  //     addTask;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,100 +40,122 @@ class _TodoListState extends State<TodoList> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: toDoList.length,
-              itemBuilder: (BuildContext context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 7,
-                    top: 8,
-                    left: 8,
-                    right: 8,
-                  ),
-                  child: InkWell(
-                    onTap: () async {
-                      final editedTask = await context.push<List<String>>(
-                        '/task-detail',
-                        extra: toDoList[index],
-                      );
-
-                      if (editedTask != null) {
-                        setState(() {
-                          toDoList[index] = editedTask;
-                        });
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 82,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color.fromARGB(31, 115, 114, 114),
-                            blurRadius: 10,
-                            spreadRadius: 0.2,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.white70),
-                        color: Colors.white,
+            child: BlocBuilder<TodoCubit, TodoState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.tasks.length,
+                  itemBuilder: (BuildContext context, index) {
+                    final task = state.tasks[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 7,
+                        top: 8,
+                        left: 8,
+                        right: 8,
                       ),
+                      child: InkWell(
+                        onTap: () async {
+                          final editedTask = await context.push<Task>(
+                            '/task-detail',
+                            extra: state.tasks[index],
+                          );
 
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              toDoList[index][0].isNotEmpty
-                                  ? toDoList[index][0][0].toUpperCase()
-                                  : 'it is empty',
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    toDoList[index][0],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 165),
-                                    child: Text(
-                                      toDoList[index][1],
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
+                          if (editedTask != null) {
+                            setState(() {
+                              context.read<TodoCubit>().updateTask(
+                                index,
+                                editedTask,
+                              );
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 82,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color.fromARGB(31, 115, 114, 114),
+                                blurRadius: 10,
+                                spreadRadius: 0.2,
+                                offset: const Offset(0, 5),
                               ),
-                              SizedBox(height: 5),
-                              Text(toDoList[index][2]),
+                            ],
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.white70),
+                            color: Colors.white,
+                          ),
+
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  task.name.isNotEmpty
+                                      ? task.name[0].toUpperCase()
+                                      : '?',
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                              ),
+
+                              const SizedBox(width: 20),
+
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            task.name,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Flexible(
+                                          child: Text(
+                                            task.date,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 5),
+
+                                    Text(
+                                      task.description,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 15,
+                                ),
+                                child: Container(
+                                  height: 52,
+                                  width: 5,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
                             ],
                           ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Container(
-                              height: 52,
-                              width: 5,
-                              decoration: BoxDecoration(
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             ),
@@ -207,13 +200,13 @@ class _TodoListState extends State<TodoList> {
 
                 child: ElevatedButton(
                   onPressed: () async {
-                    final newTask = await context.push<List<String>>(
+                    final newTask = await context.push<Task>(
                       '/create-task',
                     );
 
                     if (newTask != null) {
                       setState(() {
-                        toDoList.add(newTask);
+                        context.read<TodoCubit>().addTask(newTask);
                       });
                     }
                   },
