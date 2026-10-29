@@ -60,6 +60,8 @@ class _TodoListState extends State<TodoList> {
                             extra: state.tasks[index],
                           );
 
+                          if (!context.mounted) return;
+
                           if (editedTask != null) {
                             setState(() {
                               context.read<TodoCubit>().updateTask(
@@ -204,10 +206,10 @@ class _TodoListState extends State<TodoList> {
                       '/create-task',
                     );
 
+                    if (!context.mounted) return;
+
                     if (newTask != null) {
-                      setState(() {
-                        context.read<TodoCubit>().addTask(newTask);
-                      });
+                      context.read<TodoCubit>().addTask(newTask);
                     }
                   },
                   style: ElevatedButton.styleFrom(

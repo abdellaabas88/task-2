@@ -15,9 +15,9 @@ class TaskDetail extends StatefulWidget {
 
 class _TaskDetailState extends State<TaskDetail> {
   var nameController = TextEditingController();
+  
   var dateController = TextEditingController();
   var descriptionController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -136,6 +136,15 @@ class _TaskDetailState extends State<TaskDetail> {
             ),
             ElevatedButton(
               onPressed: () {
+                if (nameController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter a task name'),
+                    ),
+                  );
+                  return;
+                }
+
                 final updateTask = Task(
                   name: nameController.text.trim(),
                   date: dateController.text.trim(),

@@ -7,13 +7,7 @@ class TodoCubit extends Cubit<TodoState> {
   TodoCubit()
     : super(
         TodoState(
-          tasks: [
-            Task(
-              name: 'UI/UX App',
-              date: 'April 29',
-              description: 'Design',
-            ),
-          ],
+          tasks: [],
         ),
       );
 

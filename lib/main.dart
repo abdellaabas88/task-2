@@ -25,7 +25,7 @@ final GoRouter router = GoRouter(
 
     GoRoute(
       path: '/create-task',
-      builder: (context, state) => CreateTask(null),
+      builder: (context, state) => CreateTask(),
     ),
 
     GoRoute(

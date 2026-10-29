@@ -3,14 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:task_2/models/task.dart';
 
 class CreateTask extends StatefulWidget {
-  const CreateTask(
-    this.addTask, {
+  const CreateTask({
     super.key,
   });
 
   //is a function that receives a List<String> task.
-
-  final void Function(List<String>)? addTask;
 
   @override
   State<CreateTask> createState() => _CreateTask();
