@@ -17,6 +17,24 @@ class _CreateTask extends State<CreateTask> {
   final nameController = TextEditingController();
   final dateController = TextEditingController();
   final descriptionController = TextEditingController();
+  DateTime? selectedDate;
+
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        dateController.text =
+            '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +103,8 @@ class _CreateTask extends State<CreateTask> {
               child: Expanded(
                 child: TextField(
                   controller: dateController,
+                  readOnly: true,
+                  onTap: _selectDate,
                   decoration: InputDecoration(
                     suffixIcon: Icon(
                       Icons.calendar_month,
@@ -169,6 +189,33 @@ class _CreateTask extends State<CreateTask> {
                 //   );
                 // },
                 onPressed: () {
+                  if (nameController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a task name'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  if (dateController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a task date'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  if (descriptionController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a task description'),
+                      ),
+                    );
+                    return;
+                  }
+
                   final updateTask = Task(
                     name: nameController.text.trim(),
                     date: dateController.text.trim(),
